@@ -39,7 +39,7 @@ class DeepNetwork(torch.nn.Module):
         return self.output_layer(X).squeeze(-1)
 
 
-class DeepEnsemble():
+class DeepEnsemble:
     def __init__(self, config, model_dirs):
         self._model_dirs = model_dirs
         self._model = DeepNetwork(config).to(device=config['device'])
