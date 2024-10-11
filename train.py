@@ -88,7 +88,7 @@ def training(model, train_loader, val_loader, train_mask, val_mask, config, fold
         loss_val.append(epoch_val_loss)
         sharpe_val.append(epoch_val_sharpe)
 
-        if epoch <= 50 or epoch % 50 == 0:
+        if epoch <= 50 or epoch % 50 == 0 or epoch > (config['epochs'] - 50):
             print(
                 'Epoch {} - Training Loss: {:.8f}, Val Loss: {:.8f}, Train Sharpe: {:.8f}, Validation Sharpe: {:.8f}'.format(
                     epoch + 1,
@@ -103,7 +103,7 @@ def training(model, train_loader, val_loader, train_mask, val_mask, config, fold
                 best_model_state = model.state_dict()
                 best_epoch = epoch
                 print("Best model updated at epoch {}".format(epoch + 1))
-                if epoch > 50 and epoch % 50 != 0:
+                if (50 < epoch < (config['epochs'] - 50)) and epoch % 50 != 0:
                     print(
                         'Epoch {} - Training Loss: {:.8f}, Val Loss: {:.8f}, Train Sharpe: {:.8f}, Validation Sharpe: {:.8f}'.format(
                             epoch + 1, epoch_loss, epoch_val_loss, epoch_sharpe, epoch_val_sharpe))
@@ -113,7 +113,7 @@ def training(model, train_loader, val_loader, train_mask, val_mask, config, fold
             best_model_state = model.state_dict()
             best_epoch = epoch
             print("Best model updated at epoch {}".format(epoch + 1))
-            if epoch > 50 and epoch % 10 != 0:
+            if (50 < epoch < (config['epochs'] - 50)) and epoch % 50 != 0:
                 print(
                     'Epoch {} - Training Loss: {:.8f}, Val Loss: {:.8f}, Train Sharpe: {:.8f}, Validation Sharpe: {:.8f}'.format(
                         epoch + 1, epoch_loss, epoch_val_loss, epoch_sharpe, epoch_val_sharpe))
@@ -162,8 +162,8 @@ def train_ensembles(config, crossval_loaders, masks, fold, ensemble_members=8):
         avg_sharpe_ens['val'] += sharpe_val[best_epoch]
         avg_sharpe_ens['test'] += test_sharpe
 
-    avg_loss_ens = {key: value / (ensemble_members) for key, value in avg_loss_ens.items()}
-    avg_sharpe_ens = {key: value / (ensemble_members) for key, value in avg_sharpe_ens.items()}
+    avg_loss_ens = {key: value / ensemble_members for key, value in avg_loss_ens.items()}
+    avg_sharpe_ens = {key: value / ensemble_members for key, value in avg_sharpe_ens.items()}
 
     return avg_loss_ens, avg_sharpe_ens
 
@@ -176,7 +176,7 @@ def run_one_subset(config):
     avg_sharpe_fold = {'train': 0.0, 'val': 0.0, 'test': 0.0}
 
     for fold in range(len(crossval_loaders)):
-        print('RUNNING FOLD NO. {}'.format(fold + 1))
+        print('\nRUNNING FOLD NO. {}'.format(fold + 1))
         avg_loss_ens, avg_sharpe_ens = train_ensembles(config, crossval_loaders, masks, fold,
                                                        config['ensemble_members'])
 
