@@ -176,7 +176,7 @@ def run_one_subset(config):
     avg_sharpe_fold = {'train': 0.0, 'val': 0.0, 'test': 0.0}
 
     for fold in range(len(crossval_loaders)):
-        print('Running fold no. {}'.format(fold + 1))
+        print('RUNNING FOLD NO. {}'.format(fold + 1))
         avg_loss_ens, avg_sharpe_ens = train_ensembles(config, crossval_loaders, masks, fold,
                                                        config['ensemble_members'])
 
@@ -209,6 +209,7 @@ def run_all_subsets(config):
     losses = {}
     sharpes = {}
     for subset in subset2col.keys():
+        print('\nTRAINING FOR SUBSET: {}'.format(subset))
         config['subset'] = subset
         config['input_dim'] = len(subset2col[config['subset']])
         losses[subset], sharpes[subset] = run_one_subset(config)
