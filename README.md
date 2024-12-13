@@ -12,4 +12,4 @@ Results:
 
 
 # Citation
-Ron Kaniel, Zihan Lin, Markus Pelger, and Stijn Van Nieuwerburgh. Machine learning the skill of mutual fund managers. _Journal of Financial Economics_, 150(1):94–138, 2023
+Ron Kaniel, Zihan Lin, Markus Pelger, and Stijn Van Nieuwerburgh. Machine learning the skill of mutual fund managers. _Journal of Financial Economics_, 150(1):94–138, 2023. https://www.sciencedirect.com/science/article/pii/S0304405X23001253 
